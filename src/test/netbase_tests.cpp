@@ -89,15 +89,15 @@ BOOST_AUTO_TEST_CASE(netbase_splithost)
     BOOST_CHECK(TestSplitHost("emrals.com:80", "emrals.com", 80));
     BOOST_CHECK(TestSplitHost("[emrals.com]:80", "emrals.com", 80));
     BOOST_CHECK(TestSplitHost("127.0.0.1", "127.0.0.1", -1));
-    BOOST_CHECK(TestSplitHost("127.0.0.1:13370", "127.0.0.1", 13370));
+    BOOST_CHECK(TestSplitHost("127.0.0.1:30001", "127.0.0.1", 30001));
     BOOST_CHECK(TestSplitHost("[127.0.0.1]", "127.0.0.1", -1));
-    BOOST_CHECK(TestSplitHost("[127.0.0.1]:13370", "127.0.0.1", 13370));
+    BOOST_CHECK(TestSplitHost("[127.0.0.1]:30001", "127.0.0.1", 30001));
     BOOST_CHECK(TestSplitHost("::ffff:127.0.0.1", "::ffff:127.0.0.1", -1));
-    BOOST_CHECK(TestSplitHost("[::ffff:127.0.0.1]:13370", "::ffff:127.0.0.1", 13370));
-    BOOST_CHECK(TestSplitHost("[::]:13370", "::", 13370));
-    BOOST_CHECK(TestSplitHost("::13370", "::13370", -1));
-    BOOST_CHECK(TestSplitHost(":13370", "", 13370));
-    BOOST_CHECK(TestSplitHost("[]:13370", "", 13370));
+    BOOST_CHECK(TestSplitHost("[::ffff:127.0.0.1]:30001", "::ffff:127.0.0.1", 30001));
+    BOOST_CHECK(TestSplitHost("[::]:30001", "::", 30001));
+    BOOST_CHECK(TestSplitHost("::30001", "::30001", -1));
+    BOOST_CHECK(TestSplitHost(":30001", "", 30001));
+    BOOST_CHECK(TestSplitHost("[]:30001", "", 30001));
     BOOST_CHECK(TestSplitHost("", "", -1));
 }
 
@@ -110,10 +110,10 @@ bool static TestParse(std::string src, std::string canon)
 BOOST_AUTO_TEST_CASE(netbase_lookupnumeric)
 {
     BOOST_CHECK(TestParse("127.0.0.1", "127.0.0.1:65535"));
-    BOOST_CHECK(TestParse("127.0.0.1:13370", "127.0.0.1:13370"));
+    BOOST_CHECK(TestParse("127.0.0.1:30001", "127.0.0.1:30001"));
     BOOST_CHECK(TestParse("::ffff:127.0.0.1", "127.0.0.1:65535"));
     BOOST_CHECK(TestParse("::", "[::]:65535"));
-    BOOST_CHECK(TestParse("[::]:13370", "[::]:13370"));
+    BOOST_CHECK(TestParse("[::]:30001", "[::]:30001"));
     BOOST_CHECK(TestParse("[127.0.0.1]", "127.0.0.1:65535"));
     BOOST_CHECK(TestParse(":::", "[::]:0"));
 

@@ -54,8 +54,8 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
  */
 static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
-    const char* pszTimestamp = "06112020 Craig Wright Apparently Just Admitted to Hacking Mt. Gox";
-    const CScript genesisOutputScript = CScript() << ParseHex("04e5a8143f86ad8ac63791fbbdb8e0b9111da88c8c693a2222c2c13c063ea790f7960b8025a9047a7bc671d5cfe707a2dd2e13b86182e1064a0eea7bf863636363") << OP_CHECKSIG;
+    const char* pszTimestamp = "Emrals, Cryptocurrency for Good";
+    const CScript genesisOutputScript = CScript() << ParseHex("048384710fa689ad5023690c80f3a49c8f13f8d45b8c857fbcbc8bc4a8e4d3eb4b10f4d4604fa08dce601aaf0f470216fe1b51850b4acf21b179c45070ac7b03a9") << OP_CHECKSIG;
     return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
 }
 
@@ -143,15 +143,15 @@ public:
     CMainParams()
     {
         strNetworkID = "main";
-        consensus.nSubsidyHalvingInterval = 525600;
+        consensus.nSubsidyHalvingInterval = 210240;
         consensus.BIP16Exception = uint256();
         consensus.BIP34Height = 1;
         consensus.BIP34Hash = uint256();
         consensus.BIP65Height = 1;
         consensus.BIP66Height = 1;
         consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~arith_uint256(0) >> 20;
-        consensus.nPowTargetTimespan = 1 * 24 * 60 * 60;                                                   // 1 day
-        consensus.nPowTargetSpacing = 1 * 60;
+        consensus.nPowTargetTimespan = 60 * 60 * 3; // Emrals: 3 hours                                                // 1 day
+        consensus.nPowTargetSpacing = 2.5 * 60; // Emrals: 2.5 minutes
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nPosTargetSpacing = 60; // PoS: 1 minutes
@@ -159,7 +159,7 @@ public:
         consensus.nStakeMinAge = 60 * 60; // 1 hours /// change back to 1 hour later
         consensus.nStakeMaxAge = 60 * 60 * 24; // 24 hours
         consensus.nModifierInterval = 60;      // Modifier interval: time to elapse before new modifier is computed (60 seconds)
-        consensus.nLastPoWBlock = 1500; // change back to 1500 later
+        consensus.nLastPoWBlock = 500000; // change back to 1500 later
         consensus.nLastBlockReward = 9999999;
         consensus.nRuleChangeActivationThreshold = 1916; // 95% of 2016
         consensus.nMinerConfirmationWindow = 2016;       // nPowTargetTimespan / nPowTargetSpacing
@@ -185,8 +185,8 @@ public:
 
         // Deployment of BIP68, BIP112, and BIP113.
         consensus.vDeployments[Consensus::DEPLOYMENT_CSV].bit = 0;
-        consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nStartTime = 1462060800; // May 1st, 2016
-        consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nTimeout = 1493596800;   // May 1st, 2017
+        consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nStartTime = 1486252800; // May 1st, 2016
+        consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nTimeout = 1517788800;   // May 1st, 2017
 
         // Deployment of SegWit (BIP141, BIP143, and BIP147)
         consensus.vDeployments[Consensus::DEPLOYMENT_SEGWIT].bit = 1;
@@ -207,34 +207,43 @@ public:
          * The characters are rarely used upper ASCII, not valid as UTF-8, and produce
          * a large 32-bit integer with any alignment.
          */
-        pchMessageStart[0] = 0xd4;
-        pchMessageStart[1] = 0xf4;
-        pchMessageStart[2] = 0xa6;
-        pchMessageStart[3] = 0x12;
-        nDefaultPort = 13370;
+        pchMessageStart[0] = 0xba;
+        pchMessageStart[1] = 0x0a;
+        pchMessageStart[2] = 0x6a;
+        pchMessageStart[3] = 0xbc;
+        nDefaultPort = 30001;
         nPruneAfterHeight = 100000;
         m_assumed_blockchain_size = 1;
         m_assumed_chain_state_size = 0;
 
 
-        genesis = CreateGenesisBlock(1592001039 , 28269589, 0x1e0ffff0, 1, 0 * COIN);
+
+        genesis = CreateGenesisBlock(1532484272, 1335424, 0x1e0ffff0, 1, 50 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x0000098e30a3d29ee06c8f371e9e1fc516c8218b1be2615b7b0ec31649ed12e3"));
-        assert(genesis.hashMerkleRoot == uint256S("0x7f572dcc0eae0471f168f6424b3247c1f5da22e7944b23e0cf06d39d57e2f352"));
+        assert(consensus.hashGenesisBlock == uint256S("0x00000fbe71ccb50a95cc784f5dc8be27877ebec894b061c202f4bb74c84506bd"));
+        assert(genesis.hashMerkleRoot == uint256S("0x124a6421a811877db9aa2503c41f4dbe08feb5a58cb989adfbfa7c38c82d57b3"));
 
         // Note that of those which support the service bits prefix, most only support a subset of
         // possible options.
         // This is fine at runtime as we'll fall back to using them as a oneshot if they don't support the
         // service bits we want, but we should get them updated to support all service bits wanted by any
         // release ASAP to avoid it where possible.
-        vSeeds.emplace_back("s1.emrals.io");
-        vSeeds.emplace_back("s2.emrals.io");
+        vSeeds.emplace_back("node1.emrals.com");
+        vSeeds.emplace_back("node2.emrals.com");
+        vSeeds.emplace_back("node3.emrals.com");
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 28); // Wallet address starts with "C"
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 6);
-        base58Prefixes[SECRET_KEY] = std::vector<unsigned char>(1, 46);
-        base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xB2, 0x1E};
-        base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x88, 0xAD, 0xE4};
+
+        // Emrals addresses start with 'E'
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,33);
+        // Emrals script addresses start with '7'
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,16);
+        // Emrals private keys start with '7' or 'X'
+        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,161);
+        // Emrals BIP32 pubkeys start with 'xpub' (Bitcoin defaults)
+        base58Prefixes[EXT_PUBLIC_KEY] = boost::assign::list_of(0x04)(0x88)(0xB2)(0x1E).convert_to_container<std::vector<unsigned char> >();
+        // Emrals BIP32 prvkeys start with 'xprv' (Bitcoin defaults)
+        base58Prefixes[EXT_SECRET_KEY] = boost::assign::list_of(0x04)(0x88)(0xAD)(0xE4).convert_to_container<std::vector<unsigned char> >();
+
 
         bech32_hrp = "cp";
 
@@ -260,33 +269,15 @@ public:
 
         checkpointData = {
                 {
-                        {      1, uint256S("0x000000af1c83cdf16aba8e539aa86b90f8aa39afb1c9dcd489f02202c92b90a9")},
-                        {   1000, uint256S("0x000000a687ae1b49630c53b78983bfa3e40248f811336480cc0454300b7ca0e4")},
-                        {   1500, uint256S("0x00000027336a6d7cb44105e66b19b7c357a128f12ec097138b783b082c15f075")},
-                        {  10000, uint256S("0xd4b13fe1ce11047cc04ef099bf85062a0bdc01913644a6e05ba4b6f44331bbc9")},
-                        {  12167, uint256S("0x6a5b1939de7f55943aa73c02e033e5326f52fa07446c78db62c513f2e9bddafb")},
-                        {  20000, uint256S("0xd2889eb5d03ae4cf77967c4f6dd5e0a3b25cd6c06b2ebe065b0399504b5f84ed")},
-                        {  40000, uint256S("0x0a8c530d9b7a2a92fdf1deeb26f62b91bad189c880af1e5d51aa1aa60b5a0ab4")},
-                        {  60000, uint256S("0xba66203533e488a13f7be8e8f459259a970997e921c337153aa6ab4498206094")},
-                        {  80000, uint256S("0xf6469b539bfa8da20404024284a11ed5400152e47d38484ecb7f065b7ec538f6")},
-                        { 100000, uint256S("0x9432475502579e22b27a93caf0314158159da4c979c0d75765944ed325588e9f")},
-                        { 120000, uint256S("0xa55f1dfcc9f499235493a2ace0a4708c33d6b8b4017c4e2f11a3f136023b5563")},
-                        { 140000, uint256S("0x098747dc5350c1b9c6dc00aa52d35383fbeb02539770873260e0b16b28b84ec8")},
-                        { 160000, uint256S("0xe63bcee630d93e501372beb62e565ef67cde0345a80b88bd5ee29d0d2b736eea")},
-                        { 180000, uint256S("0x3ade170816a5bd5a94980594e9e6c0974c6cf306cbf4f5f8a6e2bff7e06b1980")},
-                        { 200000, uint256S("0x88761a6b98dd3d2dd83f995db8035788a599a068e183913ac88165fcf7b42d62")},
-                        { 220000, uint256S("0x8b3ba3f0fa56d69272317630ffb352826bf3d1bbd6b00031d1a427d57e10e0df")},
-                        { 240000, uint256S("0xe2a53ce2246a7f4ff51b68a04ded11ed68f7dcb7f916daeb54f475d10dbebc7d")},
-                        { 260000, uint256S("0xf7bd7a739f08cd17a7be8fa3f378892bcfb56e553ba92b49f2b50c0542d6e3c4")},
-                        { 280000, uint256S("0x12ea41d7c1d7e3d2b15ae5b58d65343948d5540a6ca5cd648719fdb45e0789f5")}
+                        { 0, uint256S("0x00000fbe71ccb50a95cc784f5dc8be27877ebec894b061c202f4bb74c84506bd")}
                 }};
 
         chainTxData = ChainTxData{
             // Data from rpc: getchaintxstats <nblock> <blockhash>
             // Data from RPC: getchaintxstats 70004 2da7cf773e5032a76aa4480b033c1ac6978ff64531f168c92d022c90f5bf7996
-            /* nTime    */ 1597981950,
-            /* nTxCount */ 259455,
-            /* dTxRate  */ 0.04402295173015624};
+            /* nTime    */ 1532484272,
+            /* nTxCount */ 0,
+            /* dTxRate  */ 1};
     }
 };
 

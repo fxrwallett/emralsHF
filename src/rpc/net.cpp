@@ -220,8 +220,8 @@ static UniValue addnode(const JSONRPCRequest& request)
                 },
                 RPCResults{},
                 RPCExamples{
-                    HelpExampleCli("addnode", "\"192.168.0.6:13370\" \"onetry\"")
-            + HelpExampleRpc("addnode", "\"192.168.0.6:13370\", \"onetry\"")
+                    HelpExampleCli("addnode", "\"192.168.0.6:30001\" \"onetry\"")
+            + HelpExampleRpc("addnode", "\"192.168.0.6:30001\", \"onetry\"")
                 },
             }.ToString());
 
@@ -263,9 +263,9 @@ static UniValue disconnectnode(const JSONRPCRequest& request)
                 },
                 RPCResults{},
                 RPCExamples{
-                    HelpExampleCli("disconnectnode", "\"192.168.0.6:13370\"")
+                    HelpExampleCli("disconnectnode", "\"192.168.0.6:30001\"")
             + HelpExampleCli("disconnectnode", "\"\" 1")
-            + HelpExampleRpc("disconnectnode", "\"192.168.0.6:13370\"")
+            + HelpExampleRpc("disconnectnode", "\"192.168.0.6:30001\"")
             + HelpExampleRpc("disconnectnode", "\"\", 1")
                 },
             }.Check(request);
@@ -310,7 +310,7 @@ static UniValue getaddednodeinfo(const JSONRPCRequest& request)
             "    \"connected\" : true|false,          (boolean) If connected\n"
             "    \"addresses\" : [                    (list of objects) Only when connected = true\n"
             "       {\n"
-            "         \"address\" : \"192.168.0.201:13370\",  (string) The emrals server IP and port we're connected to\n"
+            "         \"address\" : \"192.168.0.201:30001\",  (string) The emrals server IP and port we're connected to\n"
             "         \"connected\" : \"outbound\"           (string) connection, inbound or outbound\n"
             "       }\n"
             "     ]\n"
