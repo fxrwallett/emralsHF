@@ -1,0 +1,68 @@
+# It is not recommended to modify this file in-place, because it will
+# be overwritten during package upgrades. If you want to add further
+# options or overwrite existing ones then use
+# $ systemctl edit emralsd.service
+# See "man systemd.service" for details.
+
+# Note that almost all daemon options could be specified in
+# /etc/emrals/emrals.conf, except for those explicitly specified as arguments
+# in ExecStart=
+
+[Unit]
+Description=emrals daemon
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/emralsd -daemon \
+                            -pid=/run/emralsd/emralsd.pid \
+                            -conf=/etc/emrals/emrals.conf \
+                            -datadir=/var/lib/emralsd
+
+# Process management
+####################
+
+Type=forking
+PIDFile=/run/emralsd/emralsd.pid
+Restart=on-failure
+
+# Directory creation and permissions
+####################################
+
+# Run as emrals:emrals
+User=emrals
+Group=emrals
+
+# /run/emralsd
+RuntimeDirectory=emralsd
+RuntimeDirectoryMode=0710
+
+# /etc/emrals
+ConfigurationDirectory=emrals
+ConfigurationDirectoryMode=0710
+
+# /var/lib/emralsd
+StateDirectory=emralsd
+StateDirectoryMode=0710
+
+# Hardening measures
+####################
+
+# Provide a private /tmp and /var/tmp.
+PrivateTmp=true
+
+# Mount /usr, /boot/ and /etc read-only for the process.
+ProtectSystem=full
+
+# Disallow the process and all of its children to gain
+# new privileges through execve().
+NoNewPrivileges=true
+
+# Use a new /dev namespace only populated with API pseudo devices
+# such as /dev/null, /dev/zero and /dev/random.
+PrivateDevices=true
+
+# Deny the creation of writable and executable memory mappings.
+MemoryDenyWriteExecute=true
+
+[Install]
+WantedBy=multi-user.target

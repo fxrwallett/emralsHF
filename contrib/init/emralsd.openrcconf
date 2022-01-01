@@ -1,0 +1,33 @@
+# /etc/conf.d/emralsd: config file for /etc/init.d/emralsd
+
+# Config file location
+#EMRALSD_CONFIGFILE="/etc/emrals/emrals.conf"
+
+# What directory to write pidfile to?  (created and owned by $EMRALSD_USER)
+#EMRALSD_PIDDIR="/var/run/emralsd"
+
+# What filename to give the pidfile
+#EMRALSD_PIDFILE="${EMRALSD_PIDDIR}/emralsd.pid"
+
+# Where to write emralsd data (be mindful that the blockchain is large)
+#EMRALSD_DATADIR="/var/lib/emralsd"
+
+# User and group to own emralsd process
+#EMRALSD_USER="emrals"
+#EMRALSD_GROUP="emrals"
+
+# Path to emralsd executable
+#EMRALSD_BIN="/usr/bin/emralsd"
+
+# Nice value to run emralsd under
+#EMRALSD_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+#EMRALSD_OPTS=""
+
+# The timeout in seconds OpenRC will wait for emralsd to terminate
+# after a SIGTERM has been raised.
+# Note that this will be mapped as argument to start-stop-daemon's
+# '--retry' option, which means you can specify a retry schedule
+# here. For more information see man 8 start-stop-daemon.
+EMRALSD_SIGTERM_TIMEOUT=60
